@@ -5,7 +5,6 @@ body {
   margin: 0;
 }
 
-
 header {
   background-color: #333;
   color: #fff;
@@ -17,6 +16,7 @@ header {
   top: 0;
   left: 0;
   text-align: left;
+  z-index: 500;
 }
 
 .logo {
@@ -25,23 +25,19 @@ header {
   margin-right: 10px;
 }
 
-
 .container {
   max-width: 800px;
-  margin-top: 7%;
+  margin-top: 3%;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
-
 }
-
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
 }
-
 
 thead {
   background-color: #333;
@@ -54,22 +50,18 @@ th {
   text-align: left;
 }
 
-
 td {
   padding: 10px;
   color: #333;
 }
 
-
 tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-
 tbody tr:hover {
   background-color: #ddd;
 }
-
 
 .filter-bar {
   display: flex;
@@ -87,35 +79,35 @@ tbody tr:hover {
   padding: 5px;
 }
 
-
 @media (max-width: 600px) {
   .container {
     padding: 10px;
-    margin-top: 18%; 
+    margin-top: 10%;
   }
-  
+
   .filter-bar {
     flex-wrap: wrap;
     justify-content: space-between;
   }
-  
-  .filter-bar label, .filter-bar select {
+
+  .filter-bar label,
+  .filter-bar select {
     width: 100%;
     margin-bottom: 10px;
   }
-  
+
   .filter-bar select {
     max-width: 200px;
   }
 
-  
-  th,td {
+  th,
+  td {
     font-size: 14px;
   }
-  
-  
+
   @media (max-width: 400px) {
-    th,td {
+    th,
+    td {
       font-size: 12px;
     }
   }
