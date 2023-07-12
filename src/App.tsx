@@ -11,6 +11,9 @@ export type Competitor = {
 function App() {
   return (
     <Container>
+      <header>
+        <img src="../assets/hackIllinoisLogo.svg" alt="" className="logo" />
+      </header>
       <Router>
         <Routes>
           <Route path="/:pageNumber?/:items?" element={<Board />} />

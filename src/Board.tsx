@@ -19,11 +19,9 @@ function Board() {
   const siteNumber: number = pageNumber ? Number(pageNumber) : 1;
   const { items } = useParams();
   const numToLoad: number = items ? Number(items) : 25;
-  console.log(siteNumber);
-  console.log(numToLoad);
 
-  const previousSite = siteNumber - 1 > 1 ? siteNumber - 1 : 1;
-  const nextSite = siteNumber + 1;
+  const previousSite: number = siteNumber - 1 > 1 ? siteNumber - 1 : 1;
+  const nextSite: number = siteNumber + 1;
 
   const options: loadOption[] = [
     { value: 10, label: "10" },
@@ -45,7 +43,6 @@ function Board() {
       "https://api.hackillinois.org/profile/leaderboard/?limit=" +
       maxLoading.toString();
     axios.get(url).then((response) => {
-      console.log("run useEffect");
       const filteredProfiles = response.data.profiles.slice(
         maxLoading - selected.value,
         maxLoading + 1
@@ -55,25 +52,22 @@ function Board() {
   }, [siteNumber, selected]);
 
   const handleChange = (selectedOption: any) => {
-    console.log(`Option selected:`, selectedOption);
     setSelected(selectedOption);
   };
 
   return (
     <div>
-      <header>
-        <img src="../assets/hackIllinoisLogo.svg" alt="" className="logo" />
-      </header>
       <div className="container">
         <div className="filter-bar">
           <label htmlFor="places-per-page">Places per page:</label>
           <Select
+            tabIndex={1}
             defaultValue={selected}
             options={options}
             onChange={handleChange}
           />
         </div>
-        <table className="table table-striped table-bordered">
+        <table>
           <thead>
             <tr>
               <th>Place</th>
@@ -85,7 +79,11 @@ function Board() {
             {competitors
               ? competitors.map((competitor, index) => {
                   return (
-                    <tr key={competitor.id}>
+                    <tr
+                      tabIndex={index + 2}
+                      role="tabpanel"
+                      key={competitor.id}
+                    >
                       <td>{selected.value * (siteNumber - 1) + index + 1}</td>
                       <td>{competitor.discord}</td>
                       <td>{competitor.points}</td>
@@ -95,22 +93,26 @@ function Board() {
               : null}
           </tbody>
         </table>
-        <Link to={`/${previousSite}/${selected.label}`}>
-          <Button
-            disabled={siteNumber == previousSite ? true : false}
-            color="secondary"
-          >
-            Back
-          </Button>
-        </Link>
-        <Link to={`/${nextSite}/${selected.label}`}>
-          <Button
-            disabled={siteNumber * selected.value + 1 > 743 ? true : false}
-            color="secondary"
-          >
-            Forward
-          </Button>
-        </Link>
+        <div className="nav-buttons">
+          <Link to={`/${previousSite}/${selected.label}`}>
+            <Button
+              tabIndex={selected.value + 2}
+              disabled={siteNumber == previousSite ? true : false}
+              color="secondary"
+            >
+              Back
+            </Button>
+          </Link>
+          <Link to={`/${nextSite}/${selected.label}`}>
+            <Button
+              tabIndex={selected.value + 3}
+              disabled={siteNumber * selected.value + 1 > 743 ? true : false}
+              color="secondary"
+            >
+              Forward
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -79,6 +79,11 @@ tbody tr:hover {
   padding: 5px;
 }
 
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 @media (max-width: 600px) {
   .container {
     padding: 10px;
