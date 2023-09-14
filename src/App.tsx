@@ -2,12 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Board from "./Board.tsx";
 import { Container } from "reactstrap";
 
-export type Competitor = {
-  id: string;
-  points: number;
-  discord: string;
-};
-
 function App() {
   return (
     <Container>
@@ -16,6 +10,7 @@ function App() {
       </header>
       <Router>
         <Routes>
+          {/* The path can have optional parameters 'pageNumber' and 'items' */}
           <Route path="/:pageNumber?/:items?" element={<Board />} />
         </Routes>
       </Router>

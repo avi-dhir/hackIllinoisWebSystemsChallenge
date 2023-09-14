@@ -4,20 +4,24 @@ import { useParams, Link } from "react-router-dom";
 import Select from "react-select";
 import { Button } from "reactstrap";
 
+//'Competitor' to represent each person in the competition
 export type Competitor = {
   id: string;
   points: number;
   discord: string;
 };
 
+
 interface loadOption {
   value: number;
   label: string;
 }
+
 function Board() {
-  const { pageNumber } = useParams();
+  // Get the 'pageNumber' and 'items' parameters 
+  const { pageNumber, items } = useParams();
+  
   const siteNumber: number = pageNumber ? Number(pageNumber) : 1;
-  const { items } = useParams();
   const numToLoad: number = items ? Number(items) : 25;
 
   const previousSite: number = siteNumber - 1 > 1 ? siteNumber - 1 : 1;
@@ -30,17 +34,18 @@ function Board() {
     { value: 100, label: "100" },
   ];
 
+  // Initialize state for the selected option and competitors data
   const [selected, setSelected] = useState({
     value: numToLoad,
     label: numToLoad.toString(),
-  });
-
+  } as loadOption);
   const [competitors, setCompetitors] = useState<Competitor[] | null>([]);
 
+  // Fetch competitor data when 'siteNumber' or 'selected' changes
   useEffect(() => {
     const maxLoading: number = selected.value * siteNumber;
     const url: string =
-      "https://api.hackillinois.org/profile/leaderboard/?limit=" +
+      "https://adonix.hackillinois.org/profile/leaderboard/?limit=" +
       maxLoading.toString();
     axios.get(url).then((response) => {
       const filteredProfiles = response.data.profiles.slice(
@@ -51,6 +56,7 @@ function Board() {
     });
   }, [siteNumber, selected]);
 
+  // Handle changes in the Select component
   const handleChange = (selectedOption: any) => {
     setSelected(selectedOption);
   };
@@ -94,7 +100,8 @@ function Board() {
           </tbody>
         </table>
         <div className="nav-buttons">
-          <Link to={`/${previousSite}/${selected.label}`}>
+          {/* Create navigation links for previous and next pages */}
+          <Link to={`/${previousSite}/${selected.label}`} tabIndex={-1}>
             <Button
               tabIndex={selected.value + 2}
               disabled={siteNumber == previousSite ? true : false}
@@ -103,7 +110,7 @@ function Board() {
               Back
             </Button>
           </Link>
-          <Link to={`/${nextSite}/${selected.label}`}>
+          <Link to={`/${nextSite}/${selected.label}`} tabIndex={-1}>
             <Button
               tabIndex={selected.value + 3}
               disabled={siteNumber * selected.value + 1 > 743 ? true : false}
